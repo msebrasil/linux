@@ -27,8 +27,8 @@ find config/includes.chroot/opt/mse-drivers/xprinter -maxdepth 1 -name '*.deb' -
 shopt -s nullglob
 PANTUM=(drivers/pantum/*.deb)
 XPRINTER=(drivers/xprinter/*.deb)
-(("${#PANTUM[@]}")) && cp -f "${PANTUM[@]}" config/includes.chroot/opt/mse-drivers/pantum/
-(("${#XPRINTER[@]}")) && cp -f "${XPRINTER[@]}" config/includes.chroot/opt/mse-drivers/xprinter/
+if ((${#PANTUM[@]} > 0)); then cp -f "${PANTUM[@]}" config/includes.chroot/opt/mse-drivers/pantum/; fi
+if ((${#XPRINTER[@]} > 0)); then cp -f "${XPRINTER[@]}" config/includes.chroot/opt/mse-drivers/xprinter/; fi
 shopt -u nullglob
 
 if compgen -G "drivers/pantum/*.deb" >/dev/null; then
