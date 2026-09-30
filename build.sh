@@ -50,6 +50,7 @@ lb config \
   --architectures amd64 \
   --archive-areas "main contrib non-free non-free-firmware" \
   --debian-installer none \
+  --security false \
   --binary-images iso-hybrid \
   --bootappend-live "boot=live components username=mse hostname=mse-linux quiet splash loglevel=3 systemd.show_status=false vt.global_cursor_default=0" \  --iso-application "MSE Linux" \
   --iso-publisher "MSE" \
