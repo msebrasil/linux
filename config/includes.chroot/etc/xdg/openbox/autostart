@@ -1,0 +1,17 @@
+# MSE Linux v0.1 - Openbox autostart
+xset s off &
+xset -dpms &
+xset s noblank &
+
+# Painel e rede
+tint2 -c /etc/xdg/tint2/mse.tint2rc &
+nm-applet --indicator &
+
+# Aguarda a sessão estabilizar e abre o painel MSE
+(sleep 3; google-chrome-stable \
+  --no-first-run \
+  --no-default-browser-check \
+  --disable-session-crashed-bubble \
+  --password-store=basic \
+  --start-maximized \
+  https://msebrasil.com.br/painel/) &
