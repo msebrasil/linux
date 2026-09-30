@@ -44,6 +44,11 @@ else
 fi
 
 echo "[3/6] Configurando Debian Live..."
+
+# Remove somente os arquivos gerados pelo lb config de uma tentativa anterior.
+# Os includes, hooks, listas de pacotes e demais arquivos do projeto são preservados.
+rm -f config/common config/bootstrap config/chroot config/binary config/source
+
 lb config \
   --mode debian \
   --distribution trixie \
@@ -52,9 +57,22 @@ lb config \
   --debian-installer none \
   --security false \
   --binary-images iso-hybrid \
-  --bootappend-live "boot=live components username=mse hostname=mse-linux quiet splash loglevel=3 systemd.show_status=false vt.global_cursor_default=0" \  --iso-application "MSE Linux" \
+  --bootappend-live "boot=live components username=mse hostname=mse-linux quiet splash loglevel=3 systemd.show_status=false vt.global_cursor_default=0" \
+  --iso-application "MSE Linux" \
   --iso-publisher "MSE" \
   --iso-volume "MSE_LINUX_0_1"
+
+# Algumas versões antigas de live-build podem manter defaults incompatíveis com
+# Debian 13. Garanta que o repositório legado trixie/updates não seja habilitado.
+if [[ -f config/common ]]; then
+  sed -i 's/^LB_SECURITY=.*/LB_SECURITY="false"/' config/common
+fi
+
+if grep -Rqs "security.debian.org.*trixie/updates" config/common config/bootstrap config/chroot config/binary 2>/dev/null; then
+  echo "ERRO: o live-build ainda configurou o repositório legado trixie/updates."
+  grep -R "security.debian.org.*trixie/updates" config/common config/bootstrap config/chroot config/binary 2>/dev/null || true
+  exit 1
+fi
 
 echo "[4/6] Gerando ISO..."
 lb build
