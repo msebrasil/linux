@@ -1,0 +1,28 @@
+# MSE Linux v0.1
+panel_items = TSC
+panel_position = bottom center horizontal
+panel_size = 100% 36
+panel_margin = 0 0
+panel_padding = 8 2 8
+panel_background_id = 1
+wm_menu = 0
+panel_dock = 1
+strut_policy = follow_size
+taskbar_mode = single_desktop
+taskbar_hide_if_empty = 0
+task_icon = 1
+task_text = 0
+task_centered = 0
+systray_padding = 4 2 4
+systray_sort = ascending
+clock_format = %H:%M
+clock_padding = 8 0
+launcher_padding = 4 2 4
+launcher_background_id = 0
+launcher_icon_size = 22
+launcher_item_app = /usr/share/applications/mse-poweroff.desktop
+
+rounded = 0
+border_width = 0
+background_color = #000000 100
+border_color = #000000 0
