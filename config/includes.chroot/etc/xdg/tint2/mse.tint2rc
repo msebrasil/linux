@@ -1,5 +1,5 @@
 # MSE Linux v0.1
-panel_items = TSC
+panel_items = LTSC
 panel_position = bottom center horizontal
 panel_size = 100% 36
 panel_margin = 0 0
