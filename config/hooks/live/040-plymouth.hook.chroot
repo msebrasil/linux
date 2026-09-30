@@ -1,7 +1,11 @@
 #!/bin/sh
 set -eu
 
-if command -v plymouth-set-default-theme >/dev/null 2>&1; then
+THEME_DIR="/usr/share/plymouth/themes/mse"
+
+if [ -f "$THEME_DIR/mse-logo.png" ] && command -v plymouth-set-default-theme >/dev/null 2>&1; then
   plymouth-set-default-theme mse
   update-initramfs -u
+else
+  echo "Logo MSE não encontrado; mantendo o tema Plymouth padrão."
 fi
