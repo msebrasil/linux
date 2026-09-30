@@ -75,3 +75,8 @@ e substitua `--start-maximized` por `--kiosk`.
 
 A v0.1 é um protótipo funcional de build. Antes de uso em produção, valide a ISO em máquina virtual
 e depois no hardware real, principalmente Wi-Fi, vídeo, Pantum M6550NW e Xprinter XP-430B.
+
+
+## Build automático
+
+O GitHub Actions gera a ISO bootável a cada atualização da branch `main`.
