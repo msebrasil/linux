@@ -1,0 +1,8 @@
+#!/bin/sh
+if zenity --question \
+  --title="Desligar" \
+  --text="Deseja desligar o computador?" \
+  --ok-label="Desligar" \
+  --cancel-label="Cancelar"; then
+  systemctl poweroff
+fi
