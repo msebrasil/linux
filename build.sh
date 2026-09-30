@@ -76,6 +76,18 @@ if grep -Rqs "security.debian.org.*trixie/updates" config/common config/bootstra
 fi
 
 echo "[4/6] Gerando ISO..."
+
+# Força IPv4 em todas as chamadas ao wget executadas pelo live-build.
+# Algumas etapas do live-build chamam wget diretamente no host.
+WGET_WRAPPER_DIR="/tmp/mse-wget-ipv4"
+mkdir -p "$WGET_WRAPPER_DIR"
+cat > "$WGET_WRAPPER_DIR/wget" <<'EOF'
+#!/usr/bin/env bash
+exec /usr/bin/wget -4 "$@"
+EOF
+chmod +x "$WGET_WRAPPER_DIR/wget"
+export PATH="$WGET_WRAPPER_DIR:$PATH"
+
 lb build
 
 echo "[5/6] Copiando saída..."
