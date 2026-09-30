@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=MSE
+Description=MSE Linux Boot Splash
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/mse
+ScriptFile=/usr/share/plymouth/themes/mse/mse.script
