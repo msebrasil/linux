@@ -51,10 +51,7 @@ lb config \
   --archive-areas "main contrib non-free non-free-firmware" \
   --debian-installer none \
   --binary-images iso-hybrid \
-  --bootappend-live "boot=live components quiet splash loglevel=3 systemd.show_status=false vt.global_cursor_default=0" \
-  --hostname mse-linux \
-  --username mse \
-  --iso-application "MSE Linux" \
+  --bootappend-live "boot=live components username=mse hostname=mse-linux quiet splash loglevel=3 systemd.show_status=false vt.global_cursor_default=0" \  --iso-application "MSE Linux" \
   --iso-publisher "MSE" \
   --iso-volume "MSE_LINUX_0_1"
 
