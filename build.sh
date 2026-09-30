@@ -57,6 +57,7 @@ lb config \
   --debian-installer none \
   --security false \
   --binary-images iso-hybrid \
+  --linux-flavours amd64 \
   --bootappend-live "boot=live components username=mse hostname=mse-linux quiet splash loglevel=3 systemd.show_status=false vt.global_cursor_default=0" \
   --iso-application "MSE Linux" \
   --iso-publisher "MSE" \
