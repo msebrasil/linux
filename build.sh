@@ -77,6 +77,31 @@ fi
 
 echo "[4/6] Gerando ISO..."
 
+# Compatibilidade com versões antigas do live-build (como algumas versões
+# empacotadas pelo Ubuntu): elas procuram Contents-amd64.gz diretamente em
+# dists/trixie/, mas no Debian o arquivo fica dentro da área main/.
+LB_LINUX_IMAGE_SCRIPT="/usr/lib/live/build/lb_chroot_linux-image"
+LB_LINUX_IMAGE_BACKUP=""
+
+if [[ -f "$LB_LINUX_IMAGE_SCRIPT" ]] && grep -q '/dists/\${LB_PARENT_DISTRIBUTION}/Contents-' "$LB_LINUX_IMAGE_SCRIPT"; then
+  echo "  Ajustando lb_chroot_linux-image para o layout atual dos mirrors Debian..."
+  LB_LINUX_IMAGE_BACKUP="$(mktemp)"
+  cp -a "$LB_LINUX_IMAGE_SCRIPT" "$LB_LINUX_IMAGE_BACKUP"
+
+  sed -i \
+    -e 's#/dists/\${LB_PARENT_DISTRIBUTION}/Contents-#/dists/\${LB_PARENT_DISTRIBUTION}/main/Contents-#g' \
+    -e 's#/dists/\${LB_DISTRIBUTION}/Contents-#/dists/\${LB_DISTRIBUTION}/main/Contents-#g' \
+    "$LB_LINUX_IMAGE_SCRIPT"
+fi
+
+restore_live_build_script() {
+  if [[ -n "$LB_LINUX_IMAGE_BACKUP" && -f "$LB_LINUX_IMAGE_BACKUP" ]]; then
+    cp -a "$LB_LINUX_IMAGE_BACKUP" "$LB_LINUX_IMAGE_SCRIPT"
+    rm -f "$LB_LINUX_IMAGE_BACKUP"
+  fi
+}
+trap restore_live_build_script EXIT
+
 # Força IPv4 em todas as chamadas ao wget executadas pelo live-build.
 # Algumas etapas do live-build chamam wget diretamente no host.
 WGET_WRAPPER_DIR="/tmp/mse-wget-ipv4"
