@@ -1,0 +1,25 @@
+#!/bin/sh
+set -eu
+
+FOUND=0
+
+for DIR in /opt/mse-drivers/pantum /opt/mse-drivers/xprinter; do
+  if find "$DIR" -maxdepth 1 -type f -name '*.deb' | grep -q .; then
+    FOUND=1
+    echo "Instalando drivers de $DIR"
+    dpkg -i "$DIR"/*.deb || true
+  fi
+done
+
+if [ "$FOUND" -eq 1 ]; then
+  apt-get update
+  DEBIAN_FRONTEND=noninteractive apt-get -f install -y
+  apt-get clean
+  rm -rf /var/lib/apt/lists/*
+else
+  echo "Nenhum driver proprietário de impressora foi incluído."
+fi
+
+systemctl enable cups.service || true
+systemctl enable avahi-daemon.service || true
+systemctl enable NetworkManager.service || true
