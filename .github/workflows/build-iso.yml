@@ -1,0 +1,45 @@
+name: Build MSE Linux ISO
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install live-build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            live-build debootstrap squashfs-tools xorriso isolinux syslinux-common \
+            grub-pc-bin grub-efi-amd64-bin mtools dosfstools ca-certificates curl gnupg
+
+      - name: Build bootable ISO
+        run: |
+          chmod +x build.sh
+          sudo ./build.sh
+
+      - name: Show ISO info
+        run: |
+          ls -lh output/mse-linux-v0.1-amd64.iso
+          sha256sum output/mse-linux-v0.1-amd64.iso | tee output/mse-linux-v0.1-amd64.iso.sha256
+
+      - name: Upload ISO artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mse-linux-v0.1-amd64
+          path: |
+            output/mse-linux-v0.1-amd64.iso
+            output/mse-linux-v0.1-amd64.iso.sha256
+          if-no-files-found: error
+          retention-days: 30
