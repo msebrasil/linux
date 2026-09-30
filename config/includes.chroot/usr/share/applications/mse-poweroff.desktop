@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Desligar
+Comment=Desligar o computador
+Exec=/usr/local/bin/mse-poweroff
+Icon=system-shutdown
+Terminal=false
+Categories=System;
